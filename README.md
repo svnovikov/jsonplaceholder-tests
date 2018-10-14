@@ -7,8 +7,7 @@ Software requirements
 =====================
 
 - Python v3.5 and higher.
-- Pip v3 and higher.
-- Docker stable release v17.03 and higher (for run tests from a docker container).
+- Docker stable release (for run tests from a docker container).
 
 Test structure
 ==============
@@ -24,7 +23,7 @@ There are two recommended ways where tests should be run:
 
 **Note:** the following commands are performed in the project root directory. 
 
-**Note:** the following commands are performed for Debian operation systems. If you want to execute tests somewhere else you need to find out ways how to do it yourself.
+**Note:** the following commands are performed for Ubuntu 16.04. If you want to execute tests somewhere else you need to find out ways how to do it yourself.
 
 From a virtual env
 ------------------

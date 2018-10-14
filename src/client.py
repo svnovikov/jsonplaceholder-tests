@@ -19,9 +19,27 @@ class RESTAPIClient(object):
         self.url = url
 
     def _make_url(self, endpoint=None):
+        """Make full url for given resource endpoint.
+
+        :param endpoint: str, resource endpoint
+        :return: str, full url
+        """
         if endpoint:
             return urljoin(self.url, endpoint)
         return self.url
+
+    def get_allowed_methods(self, endpoint, **kwargs):
+        """Get allowed methods for resource.
+
+        :param endpoint: str, resource endpoint
+        :param kwargs: additional params to OPTIONS method
+        :return: list, list of allowed methods
+        or empty if status code is not 204
+        """
+        resp = requests.options(self._make_url(endpoint), **kwargs)
+        if resp.status_code != 204:
+            return []
+        return resp.headers['Access-Control-Allow-Methods'].split(',')
 
     @parse_response
     def get(self, endpoint=None, **kwargs):
@@ -34,6 +52,10 @@ class RESTAPIClient(object):
     @parse_response
     def put(self, endpoint=None, **kwargs):
         return requests.put(self._make_url(endpoint), **kwargs)
+
+    @parse_response
+    def patch(self, endpoint=None, **kwargs):
+        return requests.patch(self._make_url(endpoint), **kwargs)
 
     @parse_response
     def delete(self, endpoint=None, **kwargs):
