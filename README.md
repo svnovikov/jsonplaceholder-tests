@@ -50,6 +50,13 @@ pytest --junit-xml test_result.xml
 
 The test result will be stored in `test_result.xml`. You can change where store result by passing argument `--junit-xml`.
 
+If you want to run a certain group of tests use flag `-m` with name of test group as value:
+
+```bash
+pytest --junit-xml test_result.xml -m TEST_GROUP_NAME
+```
+
+
 From a docker container
 -----------------------
 
@@ -68,10 +75,17 @@ mkdir -p $(pwd)/testres
 Run a docker container:
 
 ```bash
-docker run -v $(pwd)/testres:/testres -e TESTMOUNTDIR=/testres --user $(id -u $(whoami)):$(id -g $(whoami)) placeholdertests
+docker run --rm -v $(pwd)/testres:/testres -e TESTMOUNTDIR=/testres --user $(id -u $(whoami)):$(id -g $(whoami)) placeholdertests
 
 ```
 
 **Note:** the environment variable `TESTMOUNTDIR` must be a mount point of your host directory where you expect saving test results.
 
 **Note:** the passing your user ID and group ID by argument `--user` is needed to avoid a creation of test result xml with root permissions.
+
+If you want to run a certain group of tests use flag `-m` with name of test group as value:
+
+```bash
+docker run --rm -v $(pwd)/testres:/testres -e TESTMOUNTDIR=/testres --user $(id -u $(whoami)):$(id -g $(whoami)) placeholdertests -m TEST_GROUP_NAME
+
+```

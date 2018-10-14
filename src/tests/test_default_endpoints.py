@@ -1,6 +1,7 @@
 import pytest
 
 
+@pytest.mark.default_endpoints
 @pytest.mark.parametrize('endpoint', [
     '/posts',
     '/comments',
@@ -14,6 +15,7 @@ def test_get_example(client, endpoint):
     assert code == 200, 'Response code {} != 200 !'.format(code)
 
 
+@pytest.mark.default_endpoints
 @pytest.mark.parametrize('endpoint', [
     '/posts',
     '/comments',
