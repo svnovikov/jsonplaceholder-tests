@@ -12,7 +12,7 @@ Software requirements
 Test structure
 ==============
 
-The tests are written against a white box. They cover all resources (user, post, comment, album, photo, todo) and actions under them (get, create, update, delete, filter). Assumed `jsonplaceholder` server processes all received data verifying just one required field - resource id.
+The tests are written against a black box. They cover all resources (user, post, comment, album, photo, todo) and actions under them (get, create, update, delete, filter). Assumed `jsonplaceholder` server processes all received data verifying just one required field - resource id.
 
 The tests are written using the following test design techniques: Boundary Value Analysis, Equivalence Partitioning, Use Case Testing, Error Guessing.
 
