@@ -12,7 +12,7 @@ Software requirements
 Test structure
 ==============
 
-The tests are written against a black box. They cover all resources (user, post, comment, album, photo, todo) and actions under them (get, create, update, delete, filter). Assumed `jsonplaceholder` server processes all received data verifying just one required field - resource id.
+The tests are written against a black box. They cover all resources (user, post, comment, album, photo, todo) and actions on them (get, create, update, delete, filter). Assumed `jsonplaceholder` server processes all received data verifying just one required field - `resource id`.
 
 The tests are written using the following test design techniques: Boundary Value Analysis, Equivalence Partitioning, Use Case Testing, Error Guessing.
 
@@ -29,7 +29,7 @@ The tests are separated by groups:
 
 The group `default_endpoints` checks availability of default resource endpoints (/users, /posts, /comments, /albums, /photos, /todos) and allowed methods.
 
-Other groups check the following actions under the corresponding resource: get, create, update, delete, filter, nested resources (please take a look at https://github.com/typicode/jsonplaceholder#nested-resources).
+Other groups check the following actions on the corresponding resource: get, create, update, delete, filter, nested resources (please take a look at https://github.com/typicode/jsonplaceholder#nested-resources).
 
 These group names may be used to run the corresponding test group - use flag `-m group_name`. For example, `users` group can be executed by the following command:
 
