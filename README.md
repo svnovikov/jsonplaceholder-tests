@@ -12,6 +12,33 @@ Software requirements
 Test structure
 ==============
 
+The tests are written against a white box. They cover all resources (user, post, comment, album, photo, todo) and actions under them (get, create, update, delete, filter). Assumed `jsonplaceholder` server processes all received data verifying just one required field - resource id.
+
+The tests are written using the following test design techniques: Boundary Value Analysis, Equivalence Partitioning, Use Case Testing, Error Guessing.
+
+Information about available resources is taken from https://jsonplaceholder.typicode.com/.
+
+The tests are separated by groups:
+- default_endpoints
+- users
+- posts
+- comments
+- albums
+- photos
+- todos
+
+The group `default_endpoints` checks availability of default resource endpoints (/users, /posts, /comments, /albums, /photos, /todos) and allowed methods.
+
+Other groups checks the following actions under the corresponding resource: get, create, update, delete, filter, nested operations.
+
+These group names may be used to run the corresponding test group - use flag '-m group_name'. For example, `users` group can be executed by the following command:
+
+```bash
+pytest -m users
+```
+
+_for more details please take a look the chapter `How to run tests`_
+
 How to run tests
 ================
 

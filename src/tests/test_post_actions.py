@@ -79,7 +79,6 @@ def test_create_user_post(client, endpoint, data, expected_code, user_id):
     [
         ('/posts/1', {'title': 'foo', 'body': 'bar', 'userId': '1'}, 200),
         ('/posts/1', {'title': 'foo', 'body': 'bar'}, 200),
-        ('/posts/1', {'title': 'foo', 'body': 'bar', 'userId': '11'}, 400),
         ('/posts/1', {}, 400),
         ('/posts/1', {'id': 101}, 400),
         ('/posts/1', {'id': 10}, 400),
