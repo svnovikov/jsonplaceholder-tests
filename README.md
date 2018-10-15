@@ -29,7 +29,7 @@ The tests are separated by groups:
 
 The group `default_endpoints` checks availability of default resource endpoints (/users, /posts, /comments, /albums, /photos, /todos) and allowed methods.
 
-Other groups check the following actions under the corresponding resource: get, create, update, delete, filter, nested operations.
+Other groups check the following actions under the corresponding resource: get, create, update, delete, filter, nested resources (please take a look at https://github.com/typicode/jsonplaceholder#nested-resources).
 
 These group names may be used to run the corresponding test group - use flag `-m group_name`. For example, `users` group can be executed by the following command:
 
