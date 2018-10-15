@@ -56,12 +56,12 @@ def test_create_user(client, endpoint, data, expected_code):
     assert code == expected_code, \
         'Actual response code does not equal expected code: {} != {}'\
         .format(code, expected_code)
-    assert body.pop('id') == 11, 'User id does not equal 11'
-    # NOTE: Assume we send data with correct fields and
-    #  received data should contain all fields of sent data
-    assert check_fields(data, body),\
-        'Received data {} should contain' \
-        'all fields of sent data {}!'.format(body, data)
+    if code == 201:
+        # NOTE: Assume we send data with correct fields and
+        #  received data should contain all fields of sent data
+        assert check_fields(data, body),\
+            'Received data {} should contain' \
+            'all fields of sent data {}!'.format(body, data)
 
 
 @pytest.mark.users
@@ -100,11 +100,12 @@ def test_update_user(client, endpoint, data, expected_code):
     assert code == expected_code, \
         'Actual response code does not equal expected code: {} != {}'\
         .format(code, expected_code)
-    # NOTE: Assume we send data with correct fields and
-    #  received data should contain all fields of sent data
-    assert check_fields(data, body),\
-        'Received data {} should contain' \
-        'all fields of sent data {}!'.format(body, data)
+    if code == 200:
+        # NOTE: Assume we send data with correct fields and
+        #  received data should contain all fields of sent data
+        assert check_fields(data, body),\
+            'Received data {} should contain' \
+            'all fields of sent data {}!'.format(body, data)
 
 
 @pytest.mark.users
@@ -128,7 +129,7 @@ def test_delete_user(client, endpoint, expected_code):
     'filter_endpoint, check_endpoints',
     [
         ('/users?id=1', ['/users/1']),
-        ('/users?id=1', []),
+        ('/users?id=0', []),
         ('/users?id=10', ['/users/10']),
         ('/users?id=11', []),
         ('/users?id=11&id=1', ['/users/1']),
