@@ -3,38 +3,38 @@ import pytest
 from src.utils import check_fields
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'endpoint, expected_code',
     [
-        ('/posts/1', 200),
-        ('/posts/0', 404),
-        ('/posts/100', 200),
-        ('/posts/101', 404),
-        ('/users/1/posts', 200),
-        ('/users/11/posts', 404)
+        ('/todos/1', 200),
+        ('/todos/0', 404),
+        ('/todos/200', 200),
+        ('/todos/201', 404),
+        ('/users/1/todos', 200),
+        ('/users/11/todos', 404)
     ])
-def test_get_post(client, endpoint, expected_code):
+def test_get_todo(client, endpoint, expected_code):
     code, body = client.get(endpoint)
     assert code == expected_code, \
         'Actual response code does not equal expected code: {} != {}' \
         .format(code, expected_code)
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'endpoint, data, expected_code',
     [
-        ('/posts', {'title': 'foo', 'body': 'bar', 'userId': '1'}, 201),
-        ('/users/1/posts', {'title': 'foo', 'body': 'bar'}, 201),
-        ('/posts', {'title': 'foo', 'body': 'bar'}, 400),
-        ('/posts', {'title': 'foo', 'body': 'bar', 'userId': 11}, 400),
-        ('/posts', {}, 400),
-        ('/posts', {'id': 101}, 400),
-        ('/posts', {'id': 1}, 400),
-        ('/posts/1', {'id': 1}, 400)
+        ('/todos', {'title': 'foo', 'completed': 'true', 'userId': '1'}, 201),
+        ('/users/1/todos', {'title': 'foo', 'completed': 'true'}, 201),
+        ('/todos', {'title': 'foo', 'completed': 'true'}, 400),
+        ('/todos', {'title': 'foo', 'completed': 'true', 'userId': 11}, 400),
+        ('/todos', {}, 400),
+        ('/todos', {'id': 201}, 400),
+        ('/todos', {'id': 1}, 400),
+        ('/todos/1', {'id': 1}, 400)
     ])
-def test_create_post(client, endpoint, data, expected_code):
+def test_create_todo(client, endpoint, data, expected_code):
     code, body = client.post(
         endpoint,
         data=data)
@@ -50,17 +50,17 @@ def test_create_post(client, endpoint, data, expected_code):
             'all fields of sent data {}!'.format(body, data)
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'endpoint, data, expected_code, user_id',
     [
-        ('/users/1/posts', {'title': 'foo', 'body': 'bar'}, 201, '1'),
-        ('/users/2/posts', {'title': 'foo', 'body': 'bar'}, 201, '2'),
-        ('/users/11/posts', {'title': 'foo', 'body': 'bar'}, 404, None),
-        ('/users/1/posts', {'id': 101}, 400, None),
-        ('/users/1/posts', {'id': 1}, 400, None)
+        ('/users/1/todos', {'title': 'foo', 'completed': 'true'}, 201, '1'),
+        ('/users/2/todos', {'title': 'foo', 'completed': 'true'}, 201, '2'),
+        ('/users/11/todos', {'title': 'foo', 'completed': 'true'}, 404, None),
+        ('/users/1/todos', {'id': 101}, 400, None),
+        ('/users/1/todos', {'id': 1}, 400, None)
     ])
-def test_create_user_post(client, endpoint, data, expected_code, user_id):
+def test_create_user_todo(client, endpoint, data, expected_code, user_id):
     code, body = client.post(
         endpoint,
         data=data)
@@ -75,18 +75,22 @@ def test_create_user_post(client, endpoint, data, expected_code, user_id):
             'UserId is not correct!'
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'endpoint, data, expected_code',
     [
-        ('/posts/1', {'title': 'foo', 'body': 'bar', 'userId': '1'}, 200),
-        ('/posts/1', {'title': 'foo', 'body': 'bar'}, 200),
-        ('/posts/1', {}, 400),
-        ('/posts/1', {'id': 101}, 400),
-        ('/posts/1', {'id': 10}, 400),
-        ('/posts/101', {'title': 'foo', 'body': 'bar', 'userId': '1'}, 404)
+        ('/todos/1', {
+            'title': 'foo', 'completed': 'false', 'userId': '1'
+        }, 200),
+        ('/todos/1', {'title': 'foo', 'completed': 'true'}, 200),
+        ('/todos/1', {}, 400),
+        ('/todos/1', {'id': 101}, 400),
+        ('/todos/1', {'id': 10}, 400),
+        ('/todos/201', {
+            'title': 'foo', 'completed': 'true', 'userId': '1'
+        }, 404)
     ])
-def test_update_post(client, endpoint, data, expected_code):
+def test_update_todo(client, endpoint, data, expected_code):
     code, body = client.put(
         endpoint,
         data=data)
@@ -102,36 +106,38 @@ def test_update_post(client, endpoint, data, expected_code):
             'all fields of sent data {}!'.format(body, data)
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'endpoint, expected_code',
     [
-        ('/posts/1', 200),
-        ('/posts/0', 404),
-        ('/posts/100', 200),
-        ('/posts/101', 404)
+        ('/todos/1', 200),
+        ('/todos/0', 404),
+        ('/todos/200', 200),
+        ('/todos/201', 404)
     ])
-def test_delete_post(client, endpoint, expected_code):
+def test_delete_todo(client, endpoint, expected_code):
     code, body = client.delete(endpoint)
     assert code == expected_code, \
         'Actual response code does not equal expected code: {} != {}' \
         .format(code, expected_code)
 
 
-@pytest.mark.posts
+@pytest.mark.todos
 @pytest.mark.parametrize(
     'filter_endpoint, check_endpoints',
     [
-        ('/posts?id=1', ['/posts/1']),
-        ('/posts?id=0', []),
-        ('/posts?id=100', ['/posts/100']),
-        ('/posts?id=101', []),
-        ('/posts?id=101&id=1', ['/posts/1']),
-        ('/posts?id=100&id=1', ['/posts/1', '/posts/100']),
-        ('/posts?userId=1', ['/users/1/posts']),
-        ('/posts?userId=1&userId=2', ['/users/1/posts', '/users/2/posts'])
+        ('/todos?id=1', ['/todos/1']),
+        ('/todos?id=0', []),
+        ('/todos?completed=true', []),
+        ('/todos?id=1&completed=false', []),
+        ('/todos?id=200', ['/todos/200']),
+        ('/todos?id=201', []),
+        ('/todos?id=201&id=1', ['/todos/1']),
+        ('/todos?id=100&id=1', ['/todos/1', '/todos/100']),
+        ('/todos?userId=1', ['/users/1/todos']),
+        ('/todos?userId=1&userId=2', ['/users/1/todos', '/users/2/todos'])
     ])
-def test_filter_posts(client, filter_endpoint, check_endpoints):
+def test_filter_todos(client, filter_endpoint, check_endpoints):
     code, body = client.get(filter_endpoint)
     assert code == 200, \
         'Actual response code does not equal expected code: {} != 200' \

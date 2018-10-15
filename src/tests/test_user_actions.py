@@ -17,6 +17,8 @@ def test_get_user(client, endpoint, expected_code):
     assert code == expected_code, \
         'Actual response code does not equal expected code: {} != {}'\
         .format(code, expected_code)
+    if code == 200:
+        assert body.get('id'), 'The resource does not have ID!'
 
 
 @pytest.mark.users
@@ -57,6 +59,7 @@ def test_create_user(client, endpoint, data, expected_code):
         'Actual response code does not equal expected code: {} != {}'\
         .format(code, expected_code)
     if code == 201:
+        assert body.get('id'), 'The resource does not have ID!'
         # NOTE: Assume we send data with correct fields and
         #  received data should contain all fields of sent data
         assert check_fields(data, body),\
@@ -101,6 +104,7 @@ def test_update_user(client, endpoint, data, expected_code):
         'Actual response code does not equal expected code: {} != {}'\
         .format(code, expected_code)
     if code == 200:
+        assert body.get('id'), 'The resource does not have ID!'
         # NOTE: Assume we send data with correct fields and
         #  received data should contain all fields of sent data
         assert check_fields(data, body),\
