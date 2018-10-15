@@ -29,15 +29,15 @@ The tests are separated by groups:
 
 The group `default_endpoints` checks availability of default resource endpoints (/users, /posts, /comments, /albums, /photos, /todos) and allowed methods.
 
-Other groups checks the following actions under the corresponding resource: get, create, update, delete, filter, nested operations.
+Other groups check the following actions under the corresponding resource: get, create, update, delete, filter, nested operations.
 
-These group names may be used to run the corresponding test group - use flag '-m group_name'. For example, `users` group can be executed by the following command:
+These group names may be used to run the corresponding test group - use flag `-m group_name`. For example, `users` group can be executed by the following command:
 
 ```bash
 pytest -m users
 ```
 
-_for more details please take a look the chapter `How to run tests`_
+_for more details please take a look at the chapter `How to run tests`_
 
 How to run tests
 ================
